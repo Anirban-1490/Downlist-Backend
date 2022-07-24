@@ -16,7 +16,7 @@ const errorHandler = require("./middleware/validation-error")
 const extra = require("./routes/user_extra")
 
 app.use(cors({
-    origin:"https://uplist.netlify.app"
+    origin:"*"
 }))
 
 
