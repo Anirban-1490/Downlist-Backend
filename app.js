@@ -3,7 +3,7 @@ const app = express()
 const cors = require("cors");
 require("dotenv").config()
 
-app.set("trust-proxt",true)
+app.set("trust-proxy",true)
 
 const listrouter = require("./routes/list_router");
 const authrouter = require("./routes/authrouter")
