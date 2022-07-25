@@ -61,7 +61,7 @@ const newUser_handler = async(req,res,next)=>{
 
 const authorizeUser = async (req,res)=>{
 
-    console.log(req.secure);
+    console.log(res);
     //* get the token from client side
     const userToken = req.headers.authorization;
     if(!userToken || !userToken.startsWith("Bearer")){
