@@ -15,9 +15,7 @@ const connectDB = require("./database/db_connection")
 const errorHandler = require("./middleware/validation-error")
 const extra = require("./routes/user_extra")
 
-app.use(cors({
-    origin:"https://uplist.netlify.app"
-}))
+app.use(cors())
 
 
 app.use(express.json())
@@ -45,7 +43,7 @@ app.post("/user/:userID/image",(req,res,next)=>
 
 app.use(errorHandler)
 
-const Port = process.env.PORT || 4000
+const Port = process.env.PORT || 5000
 
 const startServer = async()=>{
     try {
