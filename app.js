@@ -4,6 +4,7 @@ const cors = require("cors");
 require("dotenv").config()
 
 app.set("trust-proxy",true)
+app.enable("trust-proxy")
 
 const listrouter = require("./routes/list_router");
 const authrouter = require("./routes/authrouter")
