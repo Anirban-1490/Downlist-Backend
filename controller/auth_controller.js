@@ -53,10 +53,11 @@ const newUser_handler = async (req, res, next) => {
                 req.headers["x-forwarded-proto"] || "http"
             }://${req.header("Host")}/public/default-profile.jpg`,
         });
+        console.log(user);
         const token = user.getToken();
-        console.log(token);
         res.status(201).json({ message: "User created successfully!", token });
     } catch (error) {
+        console.log(error);
         //* whatever error is coming from mongoose , pass it in the express error handling middleware
         next(error);
     }
