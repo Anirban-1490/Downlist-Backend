@@ -8,17 +8,16 @@ const addAnimeHandler = async (req, res) => {
     const { userID } = req.params;
     const anime = req.body;
     let userListDetails;
-    console.log(userID, anime);
+
     userListDetails = await userList.findOne({ userid: userID });
-    console.log("userListDetails ", userListDetails);
+
     if (!userListDetails) {
         //* if the user dosen't have a userList databasae entry then create one
-        console.log("creating....");
+
         userListDetails = await userList.create({ userid: userID });
-        console.log("done..", userListDetails);
     }
     userListDetails.addAnime(anime);
-    console.log("added");
+
     res.status(200).json({ message: "Anime added successfully!" });
 };
 
