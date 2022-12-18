@@ -1,6 +1,5 @@
-const { each } = require("awaity");
-const { default: map } = require("awaity/map");
-
+// const { default: map } = require("awaity/map");
+const map = require("awaity/map");
 const { default: axios } = require("axios");
 const userList = require("../Model/user_list");
 
