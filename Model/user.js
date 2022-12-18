@@ -80,7 +80,6 @@ userSchema.pre("save", async function (next) {
 //? remember if next() has an error as an argument then it will skip all non-error handling routes and will execute only an error handling middleware
 
 userSchema.post("save", (error, doc, next) => {
-    console.log(error);
     //* fot  errors
     next(error);
 });
