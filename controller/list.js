@@ -32,7 +32,11 @@ const getSavedAnime = async (req, res, next) => {
         let list = userListDetails.animeList
             .sort((a, b) => b[sortBy] - a[sortBy])
             .slice(cursor, cursor + itemLimit);
-        const nextPage = cursor + itemLimit;
+        const nextPage =
+            cursor + itemLimit <= userListDetails.animeList.length
+                ? cursor + itemLimit
+                : null;
+
         res.status(200).json({
             list,
             userID: userListDetails.userid,
@@ -119,8 +123,10 @@ const getSavedCharacter = async (req, res, next) => {
         let list = userListDetails?.charList
             .sort((a, b) => b[sortBy] - a[sortBy])
             .slice(cursor, cursor + itemLimit);
-
-        const nextPage = cursor + itemLimit;
+        const nextPage =
+            cursor + itemLimit <= userListDetails.charList.length
+                ? cursor + itemLimit
+                : null;
 
         res.status(200).json({
             list,
