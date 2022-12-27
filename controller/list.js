@@ -25,7 +25,7 @@ const getSavedAnime = async (req, res, next) => {
     const { userID } = req.params;
     const cursor = parseInt(req.query.cursor) || 0;
     const sortBy = req.query?.sortby;
-    let itemLimit = 5;
+    let itemLimit = parseInt(req.query.limit) || 5;
 
     try {
         const userListDetails = await userList.findOne({ userid: userID });
@@ -112,7 +112,7 @@ const getSavedCharacter = async (req, res, next) => {
     const { userID } = req.params;
     const cursor = parseInt(req.query.cursor) || 0;
     const sortBy = req.query?.sortby;
-    let itemLimit = 5;
+    let itemLimit = parseInt(req.query.limit) || 5;
 
     try {
         const userListDetails = await userList.findOne({ userid: userID });
