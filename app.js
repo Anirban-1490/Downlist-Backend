@@ -13,7 +13,7 @@ const commentRouter = require("./routes/comment");
 //* import DB
 const connectDB = require("./database/db_connection");
 //*import validaiton error handler middleware
-const errorHandler = require("./middleware/validation-error");
+const errorHandler = require("./middleware/ErrorHandler");
 const extra = require("./routes/user_extra");
 const cacheControl = require("./middleware/CacheControl");
 
@@ -30,11 +30,11 @@ app.use("/:objectID/comment/", commentRouter);
 app.use("/u/", extra);
 
 app.get("/", (req, res) => {
-  res.send("<h2>hello world</h2>");
+    res.send("<h2>hello world</h2>");
 });
 
 app.post("/user/:userID/image", (req, res, next) => {
-  console.log(req.files);
+    console.log(req.files);
 });
 
 //* error handling middleware
@@ -44,14 +44,14 @@ app.use(errorHandler);
 const Port = process.env.PORT || 5000;
 
 const startServer = async () => {
-  try {
-    await connectDB(process.env.DATABASE_CONNECTION);
+    try {
+        await connectDB(process.env.DATABASE_CONNECTION);
 
-    app.listen(Port, () => {
-      console.log("server is up.... on " + Port);
-    });
-  } catch (error) {
-    console.log("database error");
-  }
+        app.listen(Port, () => {
+            console.log("server is up.... on " + Port);
+        });
+    } catch (error) {
+        console.log("database error");
+    }
 };
 startServer();
