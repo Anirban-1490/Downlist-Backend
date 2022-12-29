@@ -41,6 +41,10 @@ const userSchema = new mongoose.Schema({
         type: Array,
         default: [],
     },
+    pinnedItems: {
+        type: Array,
+        default: [],
+    },
     view: {
         type: Number,
         default: 0,
@@ -118,6 +122,11 @@ userSchema.methods.addActivity = function (activity) {
     this.activity = tempActivity;
     this.save();
     return this._doc.activity;
+};
+
+userSchema.methods.pinItems = function (items) {
+    this.pinnedItems = items;
+    this.save();
 };
 
 //* --- instance method to add a liked comment to user's liked comments array
