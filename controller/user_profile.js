@@ -87,9 +87,9 @@ const pinItem = async (req, res, next) => {
     const { items: pinnedItems } = req.body;
 
     try {
-        if (pinnedItems.length > 4) {
+        if (pinnedItems.length > 5) {
             throw new CustomError(
-                "Maximum 4 items can be pinned",
+                "Maximum 5 items can be pinned",
                 "PinnedItemLimitError"
             );
         }
