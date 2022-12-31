@@ -84,17 +84,17 @@ const activity = async (req, res, next) => {
 
 const pinItem = async (req, res, next) => {
     const { userID } = req.params;
-    const { items: pinnedItems } = req.body;
+    const { newItemsToBePinned } = req.body;
 
     try {
-        if (pinnedItems.length > 5) {
+        if (newItemsToBePinned.length > 5) {
             throw new CustomError(
                 "Maximum 5 items can be pinned",
                 "PinnedItemLimitError"
             );
         }
         const userDetails = await userModel.findById(userID);
-        userDetails.pinItems(pinnedItems);
+        userDetails.pinItems(newItemsToBePinned);
         return res.status(200).json({ message: "Successfully pinned items" });
     } catch (error) {
         next(error);
