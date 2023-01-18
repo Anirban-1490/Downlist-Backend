@@ -1,37 +1,38 @@
 const userModel = require("../Model/user");
 const userList = require("../Model/user_list");
 const jwt = require("jsonwebtoken");
-
+const { CustomError } = require("../middleware/Error");
 const login_handler = async (req, res, next) => {
     const { email, pass } = req.body;
 
-    //*check if both email and password is available
-    if (!email && !pass) {
-        return res.status(400).send({
-            messages: "Please provide a email.Please provide a password",
-            fields: ["email", "password"],
-        });
-    }
-
     try {
-        //* query if the user exist or not
-        const data = await userModel.findOne({ email: email });
+        //* if user passess an empty email value check it.
+        //* if it is empty then throw a Empty email error in the client
+        if (!email) {
+            throw new CustomError("Please provide an email", "EmptyEmail");
+        }
 
-        if (!data)
-            return res
-                .status(400)
-                .send({ messages: "No account found. Please Sign up" });
+        //* if user passess an empty password value check it.
+        //* if it is empty then throw a Empty password error in the client
+
+        if (!pass) {
+            throw new CustomError("Please provide a password", "EmptyPassword");
+        }
+
+        //* query if the user exist or not
+        const userData = await userModel.findOne({ email: email });
+
+        if (!userData)
+            throw new CustomError("Incorrect Email or Password", "NoAccount");
 
         //* user found. so check compare it's password
-        const isUserFound = await data.comparePassword(pass);
+        const isPasswordSimilar = await userData.comparePassword(pass);
 
-        if (!isUserFound)
-            return res
-                .status(400)
-                .send({ messages: "No account found. Please Sign up" });
+        if (!isPasswordSimilar)
+            throw new CustomError("Incorrect Email or Password", "NoAccount");
 
         //* if authentication successful then return token
-        const token = data.getToken();
+        const token = userData.getToken();
         return res
             .status(200)
             .send({ messages: "Successfully signed in", token });
@@ -45,6 +46,24 @@ const newUser_handler = async (req, res, next) => {
     const { name, email, pass } = req.body;
 
     try {
+        if (!name) {
+            throw new CustomError(
+                "Please provide an user name",
+                "EmptyUsername"
+            );
+        }
+        //* if user passess an empty email value check it.
+        //* if it is empty then throw a Empty email error in the client
+        if (!email) {
+            throw new CustomError("Please provide an email", "EmptyEmail");
+        }
+
+        //* if user passess an empty password value check it.
+        //* if it is empty then throw a Empty password error in the client
+
+        if (!pass) {
+            throw new CustomError("Please provide a password", "EmptyPassword");
+        }
         const user = await userModel.create({
             name,
             email,
