@@ -40,7 +40,7 @@ const errorHandler = (err, req, res, next) => {
     }
     //? for other unknown errors
     else {
-        return res.status(500).send("an unknown error occurred");
+        return res.status(500).send({ message: "an unknown error occurred" });
     }
 };
 
