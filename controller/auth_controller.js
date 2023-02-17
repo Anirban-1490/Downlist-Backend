@@ -2,6 +2,7 @@ const userModel = require("../Model/user");
 const userList = require("../Model/user_list");
 const jwt = require("jsonwebtoken");
 const { CustomError } = require("../middleware/Error");
+const { default: next } = require("next");
 const login_handler = async (req, res, next) => {
     const { email, pass } = req.body;
 
@@ -33,6 +34,7 @@ const login_handler = async (req, res, next) => {
 
         //* if authentication successful then return token
         const token = userData.getToken();
+        userData.updateLoginStatus(true);
         return res
             .status(200)
             .send({ messages: "Successfully signed in", token });
@@ -102,4 +104,21 @@ const authorizeUser = async (req, res) => {
     }
 };
 
-module.exports = { login_handler, newUser_handler, authorizeUser };
+const logoutHandler = async (req, res, next) => {
+    const { userID } = req.body;
+    try {
+        const userData = await userModel.findById(userID);
+        userData.updateLoginStatus(false);
+
+        return res.status(200).json({ message: "Successfully logged out" });
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = {
+    login_handler,
+    newUser_handler,
+    authorizeUser,
+    logoutHandler,
+};
