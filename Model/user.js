@@ -65,6 +65,12 @@ const userSchema = new mongoose.Schema({
         type: Array,
         default: [],
     },
+    isLoggedIn: { type: Boolean, default: true },
+    lastLoggedIn: {
+        type: String,
+        required: true,
+        default: new Date().toString(),
+    },
 });
 
 //* a pre hook middleware used to has the password before saving to database
@@ -100,6 +106,12 @@ userSchema.methods.getToken = function () {
 //*instance method to compare password
 userSchema.methods.comparePassword = function (userPassword) {
     return bcrypt.compare(userPassword + "", this.password + "");
+};
+
+userSchema.methods.updateLoginStatus = function (isLoggedIn = true) {
+    this.isLoggedIn = isLoggedIn;
+    this.lastLoggedIn = new Date().toString();
+    this.save();
 };
 
 userSchema.methods.updateProfile = function (obj) {
