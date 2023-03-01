@@ -98,7 +98,18 @@ const authorizeUser = async (req, res) => {
             process.env.JWT_SECRET
         );
 
-        res.status(200).json({ userID, name });
+        const userDetails = await userModel.findById(userID);
+        const { email, password, ...restUserDetails } = userDetails._doc;
+
+        const newActivity = !restUserDetails.activity.length
+            ? restUserDetails.activity
+                  .sort((a, b) => new Date(b.doneAt) - new Date(a.doneAt))
+                  .slice(0, 24)
+            : [];
+
+        res.status(200).json({
+            user: { ...restUserDetails, activity: newActivity },
+        });
     } catch (error) {
         res.status(401).send({ message: "Not authorized" });
     }
