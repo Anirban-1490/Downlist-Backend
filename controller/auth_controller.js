@@ -2,7 +2,7 @@ const userModel = require("../Model/user");
 const userList = require("../Model/user_list");
 const jwt = require("jsonwebtoken");
 const { CustomError } = require("../middleware/Error");
-const { default: next } = require("next");
+
 const login_handler = async (req, res, next) => {
     const { email, pass } = req.body;
 
