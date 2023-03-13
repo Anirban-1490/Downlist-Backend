@@ -101,7 +101,7 @@ const authorizeUser = async (req, res) => {
         const userDetails = await userModel.findById(userID);
         const { email, password, ...restUserDetails } = userDetails._doc;
 
-        const newActivity = !restUserDetails.activity.length
+        const newActivity = restUserDetails.activity.length
             ? restUserDetails.activity
                   .sort((a, b) => new Date(b.doneAt) - new Date(a.doneAt))
                   .slice(0, 24)
