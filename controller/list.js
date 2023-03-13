@@ -99,6 +99,30 @@ const removeSavedAnime = async (req, res) => {
     res.status(200).json({ message: "Successfully removed anime!" });
 };
 
+const checkAnimeStatus = async (req, res) => {
+    const { userID, malID } = req.params;
+    try {
+        const { animeList } = await userList.findOne({ userid: userID });
+
+        const anime = [...animeList].find((anime) => anime.malid === malID);
+
+        if (!anime)
+            return res.status(200).json({
+                message: "Anime is not saved in list",
+                status: "Not saved",
+            });
+        return res.status(200).json({
+            message: "Anime is saved in list",
+            anime,
+            status: "Saved",
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+// * -------------- Character list -----------
+
 const addCharHandler = async (req, res) => {
     const { userID } = req.params;
     const character = req.body;
@@ -200,6 +224,27 @@ const removeAll = async (req, res) => {
     res.status(200).json({ message: "Removed all items" });
 };
 
+const checkCharacterStatus = async (req, res) => {
+    const { userID, malID } = req.params;
+    try {
+        const { charList } = await userList.findOne({ userid: userID });
+
+        const character = [...charList].find((char) => char.malid === malID);
+
+        if (!character)
+            return res.status(200).json({
+                message: "Character is not saved in list",
+                status: "Not saved",
+            });
+        return res.status(200).json({
+            message: "Character is saved in list",
+            character,
+            status: "Saved",
+        });
+    } catch (error) {
+        next(error);
+    }
+};
 module.exports = {
     addAnimeHandler,
     addCharHandler,
@@ -210,4 +255,6 @@ module.exports = {
     removeAll,
     getSavedTopAnime,
     getSavedTopCharacters,
+    checkCharacterStatus,
+    checkAnimeStatus,
 };
