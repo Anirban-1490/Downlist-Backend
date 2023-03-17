@@ -103,8 +103,7 @@ const checkAnimeStatus = async (req, res, next) => {
     const { userID, malID } = req.params;
 
     try {
-        const currentUserList = await userList.findById(userID);
-
+        const currentUserList = await userList.findOne({ userid: userID });
         const anime =
             currentUserList &&
             [...currentUserList.animeList].find(
@@ -231,7 +230,7 @@ const removeAll = async (req, res) => {
 const checkCharacterStatus = async (req, res, next) => {
     const { userID, malID } = req.params;
     try {
-        const currentUserList = await userList.findById(userID);
+        const currentUserList = await userList.findOne({ userid: userID });
 
         const character =
             currentUserList &&
