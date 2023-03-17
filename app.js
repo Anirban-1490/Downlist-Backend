@@ -17,7 +17,7 @@ const errorHandler = require("./middleware/ErrorHandler");
 const extra = require("./routes/user_extra");
 const cacheControl = require("./middleware/CacheControl");
 
-app.use(cors({ origin: "*" }));
+app.use(cors({ origin: "https://downlist.vercel.app" }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
