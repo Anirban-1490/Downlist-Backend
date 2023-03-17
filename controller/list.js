@@ -99,13 +99,17 @@ const removeSavedAnime = async (req, res) => {
     res.status(200).json({ message: "Successfully removed anime!" });
 };
 
-const checkAnimeStatus = async (req, res) => {
+const checkAnimeStatus = async (req, res, next) => {
     const { userID, malID } = req.params;
+
     try {
-        const { animeList } = await userList.findOne({ userid: userID });
+        const currentUserList = await userList.findById(userID);
 
-        const anime = [...animeList].find((anime) => anime.malid === malID);
-
+        const anime =
+            currentUserList &&
+            [...currentUserList.animeList].find(
+                (anime) => anime.malid === malID
+            );
         if (!anime)
             return res.status(200).json({
                 message: "Anime is not saved in list",
@@ -224,12 +228,14 @@ const removeAll = async (req, res) => {
     res.status(200).json({ message: "Removed all items" });
 };
 
-const checkCharacterStatus = async (req, res) => {
+const checkCharacterStatus = async (req, res, next) => {
     const { userID, malID } = req.params;
     try {
-        const { charList } = await userList.findOne({ userid: userID });
+        const currentUserList = await userList.findById(userID);
 
-        const character = [...charList].find((char) => char.malid === malID);
+        const character =
+            currentUserList &&
+            [...currentUserList.charList].find((char) => char.malid === malID);
 
         if (!character)
             return res.status(200).json({
