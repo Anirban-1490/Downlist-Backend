@@ -36,27 +36,24 @@ const viewProfile = async (req, res, next) => {
             bio,
             name,
             status,
-            activity,
+            _id,
             image,
-            view,
+
             followers,
             following,
             likedComments,
             dislikeComments,
             pinnedItems,
         } = userDetails;
-        activity = activity
-            .sort((a, b) => new Date(b.doneAt) - new Date(a.doneAt))
-            .slice(0, 24);
 
         res.status(200).json({
             user: {
                 bio,
                 status,
                 name,
-                activity,
+                _id,
                 image,
-                view,
+
                 followers,
                 following,
                 likedComments,
