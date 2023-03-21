@@ -26,7 +26,7 @@ app.use("/public", express.static("public"));
 app.use("/api/v1/auth", authrouter);
 app.use("/user/:userID/profile/", profileRouter);
 app.use("/user/:userID", listrouter);
-app.use("/:objectID/comment/", commentRouter);
+app.use("/:malid/comment/", commentRouter);
 app.use("/u/", extra);
 
 app.get("/", (req, res) => {
