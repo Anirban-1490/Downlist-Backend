@@ -24,14 +24,19 @@ const addAnimeHandler = async (req, res) => {
 const getSavedAnime = async (req, res, next) => {
     const { userID } = req.params;
     const cursor = parseInt(req.query.cursor) || 0;
-    const sortBy = req.query?.sortby;
+    const { sortby: sortBy, orderby: orderBy } = req.query;
+
     let itemLimit = parseInt(req.query.limit) || 5;
 
     try {
         const userListDetails = await userList.findOne({ userid: userID });
-        let list = userListDetails.animeList
-            .sort((a, b) => b[sortBy] - a[sortBy])
-            .slice(cursor, cursor + itemLimit);
+        let sortedList = [...userListDetails.animeList].sort((a, b) => {
+            if (orderBy === "dsc") return b[sortBy] - a[sortBy];
+            if (orderBy === "asc") return a[sortBy] - b[sortBy];
+
+            return;
+        });
+        const list = sortedList.slice(cursor, cursor + itemLimit);
         const nextPage =
             cursor + itemLimit <= userListDetails.animeList.length
                 ? cursor + itemLimit
@@ -142,14 +147,20 @@ const addCharHandler = async (req, res) => {
 const getSavedCharacter = async (req, res, next) => {
     const { userID } = req.params;
     const cursor = parseInt(req.query.cursor) || 0;
-    const sortBy = req.query?.sortby;
+
+    const { sortby: sortBy, orderby: orderBy } = req.query;
     let itemLimit = parseInt(req.query.limit) || 5;
 
     try {
         const userListDetails = await userList.findOne({ userid: userID });
-        let list = userListDetails?.charList
-            .sort((a, b) => b[sortBy] - a[sortBy])
-            .slice(cursor, cursor + itemLimit);
+        let sortedList = [...userListDetails.charList].sort((a, b) => {
+            if (orderBy === "dsc") return b[sortBy] - a[sortBy];
+            if (orderBy === "asc") return a[sortBy] - b[sortBy];
+
+            return;
+        });
+
+        let list = sortedList.slice(cursor, cursor + itemLimit);
         const nextPage =
             cursor + itemLimit <= userListDetails.charList.length
                 ? cursor + itemLimit
